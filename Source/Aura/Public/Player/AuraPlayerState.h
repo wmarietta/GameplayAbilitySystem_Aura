@@ -32,6 +32,9 @@ public:
 	UAttributeSet* GetAttributeSet() const;
 
 
+	
+
+
 protected:
 
 	/**The Player's Ability System Component*/
