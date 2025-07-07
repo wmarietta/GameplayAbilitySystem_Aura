@@ -26,7 +26,7 @@ protected:
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> EffectClass);
 
 
-	UPROPERTY(EditAnywhere, Category = "Aura|Effect")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Aura|Effect")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
 

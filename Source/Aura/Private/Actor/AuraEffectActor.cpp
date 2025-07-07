@@ -25,7 +25,7 @@ void AAuraEffectActor::BeginPlay()
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> EffectClass)
 {
 	TScriptInterface<IAbilitySystemInterface> AbilitySystemInterface = TargetActor;
-	if (AbilitySystemInterface) 
+	if (AbilitySystemInterface == nullptr) 
 	{
 		return;
 	}
