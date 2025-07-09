@@ -85,6 +85,8 @@ protected:
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
+	UFUNCTION()
+	void BroadcastMessageWidgetRow(const FUIWidgetRow& RowData);
 
 };
 

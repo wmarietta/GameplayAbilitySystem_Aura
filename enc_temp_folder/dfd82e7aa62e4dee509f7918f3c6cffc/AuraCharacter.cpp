@@ -64,6 +64,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 	if (UAuraAbilitySystemComponent* AASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)) 
 	{
 		AASC->RegisterToAbilitySystemDelegates();
+		UE_LOG(LogTemp, Warning, TEXT("AuraCharacter::InitAbilityActorInfo - AbilitySystemComponent: %s"), *AASC->GetOwner()->GetName());
 	}
 
 
