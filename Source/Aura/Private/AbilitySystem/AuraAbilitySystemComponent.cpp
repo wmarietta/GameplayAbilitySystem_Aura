@@ -20,15 +20,16 @@ void UAuraAbilitySystemComponent::RegisterToAbilitySystemDelegates()
 
 void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, const FActiveGameplayEffectHandle ActiveEffectHandle)
 {
-	FGameplayTagContainer TagContainer;
-	EffectSpec.GetAllAssetTags(TagContainer);
+	BroadcastEffectAssetTags(EffectSpec);
+}
 
-	OnEffectAssetTagsAppliedDelegate.Broadcast(TagContainer);
+void UAuraAbilitySystemComponent::Client_EffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, const FActiveGameplayEffectHandle ActiveEffectHandle)
+{
+	BroadcastEffectAssetTags(EffectSpec);
 }
 
 
-
-void UAuraAbilitySystemComponent::Client_EffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, const FActiveGameplayEffectHandle ActiveEffectHandle)
+void UAuraAbilitySystemComponent::BroadcastEffectAssetTags(const FGameplayEffectSpec& EffectSpec)
 {
 	FGameplayTagContainer TagContainer;
 	EffectSpec.GetAllAssetTags(TagContainer);

@@ -34,5 +34,8 @@ protected:
 
 	UFUNCTION(Client, Reliable)
 	void Client_EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, const FActiveGameplayEffectHandle ActiveEffectHandle);
-	
+
+private:
+
+	void BroadcastEffectAssetTags(const FGameplayEffectSpec& EffectSpec);
 };
