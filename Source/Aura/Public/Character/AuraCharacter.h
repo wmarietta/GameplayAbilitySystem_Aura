@@ -23,6 +23,9 @@ public:
 	virtual void OnRep_PlayerState() override;
 
 
+	/**Combat Interface*/
+	virtual int32 GetCombatLevel() override;
+	/**End Comabat Interface*/
 
 
 protected:

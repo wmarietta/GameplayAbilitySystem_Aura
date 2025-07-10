@@ -25,11 +25,19 @@ public:
 	/** Default constructor for the AuraPlayerState class. Initializes the player state. */
 	AAuraPlayerState();
 	
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+
 	/**Returns the Player's UAbilitySystemComponent*/
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	/**Returns the Player's UAttributeSet*/
 	UAttributeSet* GetAttributeSet() const;
+
+
+
+	FORCEINLINE int32 GetCombatLevel() const { return Level; }
 
 
 	
@@ -38,11 +46,22 @@ public:
 protected:
 
 	/**The Player's Ability System Component*/
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 
 	/**The Player's Attribute Set*/
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+
+private:
+
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing=OnRep_Level)
+	int32 Level = 1;
+
+
+	UFUNCTION()
+	void OnRep_Level(int32 OldLevel);
+
 };

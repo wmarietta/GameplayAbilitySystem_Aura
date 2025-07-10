@@ -2,8 +2,7 @@
 
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
-#include "Player/AuraPlayerState.h"
-#include <Player/AuraPlayerController.h>
+
 
 
 void UAuraAbilitySystemComponent::RegisterToAbilitySystemDelegates()

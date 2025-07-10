@@ -28,10 +28,21 @@ public:
 	//~ End Enemy Interface
 
 
+	virtual int32 GetCombatLevel() override;
+
 
 protected:
 
 	/** Called when the game starts or when spawned */
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
+	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	int32 Level = 1;
+
+private:
+
+	
+	
 };

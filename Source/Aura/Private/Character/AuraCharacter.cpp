@@ -41,6 +41,14 @@ void AAuraCharacter::OnRep_PlayerState()
 
 }
 
+int32 AAuraCharacter::GetCombatLevel()
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+
+	return AuraPlayerState->GetCombatLevel();
+}
+
 
 
 
@@ -68,7 +76,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 
 
 
-
 	AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController());
 	if (AuraPlayerController) 
 	{
@@ -78,5 +85,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+
+	InitializeDefaultAttributes();
 
 }
