@@ -56,7 +56,7 @@ public:
 
 
 
-	virtual void BroadCastInitialValues();
+	virtual void BroadcastInitialValues();
 	
 
 protected:

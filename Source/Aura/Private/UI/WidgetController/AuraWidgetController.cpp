@@ -11,7 +11,7 @@ void UAuraWidgetController::SetWidgetControllerInitializationParams(const FWidge
 	AttributeSet = Params.AttributeSet;
 }
 
-void UAuraWidgetController::BroadCastInitialValues()
+void UAuraWidgetController::BroadcastInitialValues()
 {
 }
 
