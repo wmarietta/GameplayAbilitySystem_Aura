@@ -17,6 +17,8 @@
  	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 
+DECLARE_DELEGATE_RetVal(FGameplayAttribute, FAttributeSignature)
+
 
 USTRUCT(BlueprintType)
 struct FEffectProperties {
@@ -76,6 +78,7 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 
 public:
 
+
 	/** Default Constructor for AuraAttributeSets*/
 	UAuraAttributeSet();
 
@@ -84,6 +87,9 @@ public:
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
+
+	TMap<FGameplayTag, FAttributeSignature> TagToAttributeDelegateMap;
 
 
 	//~Primary Attributes

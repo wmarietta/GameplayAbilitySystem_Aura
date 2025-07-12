@@ -55,7 +55,7 @@ public:
 	void SetWidgetControllerInitializationParams(const FWidgetControllerInitializationParams& Params);
 
 
-
+	UFUNCTION(BlueprintCallable, Category = "WidgetController")
 	virtual void BroadcastInitialValues();
 	
 

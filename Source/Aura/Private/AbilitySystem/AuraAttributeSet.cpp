@@ -9,11 +9,94 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/Pawn.h"
+#include "AuraGameplayTags.h"
 
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+
+	/** Primary Attributes*/
+	FAttributeSignature StrengthDelegate;
+	StrengthDelegate.BindStatic(UAuraAttributeSet::GetStrengthAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Primary_Strength, StrengthDelegate);
+
+	FAttributeSignature AgilityDelegate;
+	AgilityDelegate.BindStatic(UAuraAttributeSet::GetAgilityAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Primary_Agility, AgilityDelegate);
+
+	FAttributeSignature IntelligenceDelegate;
+	IntelligenceDelegate.BindStatic(UAuraAttributeSet::GetIntelligenceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Primary_Intelligence, IntelligenceDelegate);
+
+	FAttributeSignature ResilienceDelegate;
+	ResilienceDelegate.BindStatic(UAuraAttributeSet::GetResilienceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Primary_Resilience, ResilienceDelegate);
+
+	FAttributeSignature VigorDelegate;
+	VigorDelegate.BindStatic(UAuraAttributeSet::GetVigorAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Primary_Vigor, VigorDelegate);
+
+	/** End Primary Attributes*/
+
+	/** Vital Attributes*/
+	FAttributeSignature HealthDelegate;
+	HealthDelegate.BindStatic(UAuraAttributeSet::GetHealthAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Vital_Health, HealthDelegate);
+
+	FAttributeSignature ManaDelegate;
+	ManaDelegate.BindStatic(UAuraAttributeSet::GetManaAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Vital_Mana, ManaDelegate);
+
+	/** End Vital Attributes*/
+
+	/** Secondary Attributes*/
+	FAttributeSignature MaxHealthDelegate;
+	MaxHealthDelegate.BindStatic(UAuraAttributeSet::GetMaxHealthAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_MaxHealth, MaxHealthDelegate);
+
+	FAttributeSignature MaxManaDelegate;
+	MaxManaDelegate.BindStatic(UAuraAttributeSet::GetMaxManaAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_MaxMana, MaxManaDelegate);
+
+	FAttributeSignature ArmorDelegate;
+	ArmorDelegate.BindStatic(UAuraAttributeSet::GetArmorAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_Armor, ArmorDelegate);
+
+	FAttributeSignature MagicResistanceDelegate;
+	MagicResistanceDelegate.BindStatic(UAuraAttributeSet::GetMagicResistanceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_MagicResistance, MagicResistanceDelegate);
+
+	FAttributeSignature ArmorPenetrationDelegate;
+	ArmorPenetrationDelegate.BindStatic(UAuraAttributeSet::GetArmorPenetrationAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_ArmorPenetration, ArmorPenetrationDelegate);
+
+	FAttributeSignature MagicPenetrationDelegate;
+	MagicPenetrationDelegate.BindStatic(UAuraAttributeSet::GetMagicPenetrationAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_MagicPenetration, MagicPenetrationDelegate);
+
+	FAttributeSignature BlockChanceDelegate;
+	BlockChanceDelegate.BindStatic(UAuraAttributeSet::GetBlockChanceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_BlockChance, BlockChanceDelegate);
+
+	FAttributeSignature CriticalHitChanceDelegate;
+	CriticalHitChanceDelegate.BindStatic(UAuraAttributeSet::GetCriticalHitChanceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, CriticalHitChanceDelegate);
+
+	FAttributeSignature CriticalHitDamageDelegate;
+	CriticalHitDamageDelegate.BindStatic(UAuraAttributeSet::GetCriticalHitDamageAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_CriticalHitDamage, CriticalHitDamageDelegate);
+
+	FAttributeSignature HealthRegenerationDelegate;
+	HealthRegenerationDelegate.BindStatic(UAuraAttributeSet::GetHealthRegenerationAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_HealthRegeneration, HealthRegenerationDelegate);
+
+	FAttributeSignature ManaRegenerationDelegate;
+	ManaRegenerationDelegate.BindStatic(UAuraAttributeSet::GetManaRegenerationAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_ManaRegeneration, ManaRegenerationDelegate);
+
+	/** End Secondary Attributes*/
+
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
