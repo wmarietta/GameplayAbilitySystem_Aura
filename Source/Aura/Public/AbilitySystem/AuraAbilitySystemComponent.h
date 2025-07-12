@@ -23,8 +23,10 @@ class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	void RegisterToAbilitySystemDelegates();
 
-
 	FEffectAssetTags OnEffectAssetTagsAppliedDelegate;
+
+
+	void AddCharacterAbilities(const TArray<TSubclassOf<class UGameplayAbility>>& AbilitiesToAdd);
 
 protected:
 

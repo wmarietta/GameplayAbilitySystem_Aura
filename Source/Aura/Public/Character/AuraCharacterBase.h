@@ -8,12 +8,14 @@
 #include "Interaction/CombatInterface.h"
 
 
+
 #include "AuraCharacterBase.generated.h"
 
 
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
+class UGameplayAbility;
 
 
 UCLASS(Abstract)
@@ -33,6 +35,9 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
+
+
+	
 
 
 	/**The Weapon Mesh*/
@@ -64,4 +69,15 @@ protected:
 
 	void InitializeDefaultAttributes() const;
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> AttributeEffectClass, float Level) const;
+
+
+	void AddCharacterAbilities();
+
+
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartingAbilities;
+	
+
 };

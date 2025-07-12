@@ -17,6 +17,20 @@ void UAuraAbilitySystemComponent::RegisterToAbilitySystemDelegates()
 	}
 }
 
+void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<class UGameplayAbility>>& AbilitiesToAdd)
+{
+	for(const TSubclassOf<class UGameplayAbility>& Ability : AbilitiesToAdd)
+	{
+		if (Ability)
+		{
+			FGameplayAbilitySpec AbilitySpec(Ability, 1);
+			//GiveAbility(AbilitySpec);
+			GiveAbilityAndActivateOnce(AbilitySpec);
+		}
+	}
+
+}
+
 void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, const FActiveGameplayEffectHandle ActiveEffectHandle)
 {
 	BroadcastEffectAssetTags(EffectSpec);
