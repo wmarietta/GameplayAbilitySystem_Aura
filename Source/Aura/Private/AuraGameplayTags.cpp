@@ -92,4 +92,33 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Increases the rate of mana regeneration."));
 
 
+
+
+	/** Input Tags */
+	GameplayTags.Attributes_Secondary_ManaRegeneration = TagsManager.AddNativeGameplayTag(
+		FName("Input.LMB"),
+		FString("Input tag for left mouse button."));
+
+	GameplayTags.Input_RMB = TagsManager.AddNativeGameplayTag(
+		FName("Input.RMB"),
+		FString("Input tag for right mouse button."));
+
+	GameplayTags.Input_1 = TagsManager.AddNativeGameplayTag(
+		FName("Input.1"),
+		FString("Input tag for the 1 key."));
+
+	GameplayTags.Input_2 = TagsManager.AddNativeGameplayTag(
+		FName("Input.2"),
+		FString("Input tag for the 2 key."));
+
+	GameplayTags.Input_3 = TagsManager.AddNativeGameplayTag(
+		FName("Input.3"),
+		FString("Input tag for the 3 key."));
+
+	GameplayTags.Input_4 = TagsManager.AddNativeGameplayTag(
+		FName("Input.4"),
+		FString("Input tag for the 4 key."));
+
+
+
 }
