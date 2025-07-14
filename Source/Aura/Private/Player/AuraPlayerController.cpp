@@ -5,10 +5,19 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "Input/AuraInputComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "Components/SplineComponent.h"
+#include "AuraGameplayTags.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
+
+	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
+
+
 
 }
 
@@ -49,12 +58,11 @@ void AAuraPlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 
-	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	//UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	UAuraInputComponent* AuraInputComponent = Cast<UAuraInputComponent>(InputComponent);
 
-
-
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
-
+	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 
 }
 
@@ -131,4 +139,79 @@ void AAuraPlayerController::CursorTrace()
 		CurrentActor->HighlightActor();
 	}
 
+}
+
+
+
+void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+
+	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB)) 
+	{
+		bIsTargeting = (CurrentActor) ? true : false;
+		bIsAutoRunning = false;
+	}
+}
+
+void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	if (GetAuraAbilitySystemComponent() == nullptr)
+	{
+		return;
+	}
+
+
+	GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
+}
+
+void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+
+
+	if(GetAuraAbilitySystemComponent() == nullptr)
+	{
+		return;
+	}
+
+	
+
+	if(InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB) && !bIsTargeting)
+	{
+		
+		FollowTime += GetWorld()->GetDeltaSeconds();
+
+		FHitResult CursorHitResult;
+		if(GetHitResultUnderCursor(ECC_Visibility, false, CursorHitResult))
+		{
+			CachedDestination = CursorHitResult.Location;
+		}
+
+		if (APawn* ControlledPawn = GetPawn()) 
+		{
+			const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+			ControlledPawn->AddMovementInput(WorldDirection, 1.0f);
+		}
+
+
+		return;
+	}
+
+	
+	
+
+
+	GetAuraAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
+
+	
+}
+
+UAuraAbilitySystemComponent* AAuraPlayerController::GetAuraAbilitySystemComponent()
+{
+	if (AuraAbilitySystemComponent == nullptr)
+	{
+		UAbilitySystemComponent* AbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>());
+		AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	}
+
+	return AuraAbilitySystemComponent;
 }

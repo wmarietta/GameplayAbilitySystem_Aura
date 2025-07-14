@@ -95,7 +95,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 
 	/** Input Tags */
-	GameplayTags.Attributes_Secondary_ManaRegeneration = TagsManager.AddNativeGameplayTag(
+	GameplayTags.Input_LMB = TagsManager.AddNativeGameplayTag(
 		FName("Input.LMB"),
 		FString("Input tag for left mouse button."));
 
