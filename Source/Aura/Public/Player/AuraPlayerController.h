@@ -58,7 +58,7 @@ private:
 	void CursorTrace();
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> CurrentActor;
-
+	FHitResult CursorHitResult;
 
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
@@ -80,18 +80,20 @@ private:
 	
 	FVector CachedDestination = FVector::ZeroVector;
 	float FollowTime = 0.f;
-	float ShortPressedThreshold = 0.25f;
+	float ShortPressedThreshold = .5f;
 	bool bIsAutoRunning = false;
 	bool bIsTargeting = false;
 
 	UPROPERTY(EditDefaultsOnly)
-	float AutoRunAcceptanceRadius = 100.f;
+	float AutoRunAcceptanceRadius = 25.f;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
 
+	void AutoRun();
 
 
+	
 
 
 

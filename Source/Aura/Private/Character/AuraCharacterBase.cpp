@@ -39,6 +39,12 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 
 }
 
+FVector AAuraCharacterBase::GetCombatSocketLocation() const
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 
 
 void AAuraCharacterBase::InitializeDefaultAttributes() const
