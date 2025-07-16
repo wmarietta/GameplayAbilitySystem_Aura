@@ -121,4 +121,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 
 
+
+	/** Event Tags */
+	GameplayTags.Event_Montage_Firebolt = TagsManager.AddNativeGameplayTag(
+		FName("Event.Montage.Firebolt"),
+		FString("Event tag for the Firebolt montage."));
+
+
 }

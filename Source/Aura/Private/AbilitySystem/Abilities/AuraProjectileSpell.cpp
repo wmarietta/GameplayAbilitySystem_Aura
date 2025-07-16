@@ -11,8 +11,16 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	UE_LOG(LogTemp, Warning, TEXT("UAuraProjectileSpell::ActivateAbility called."));
 
-	bool bIsServer = HasAuthority(&ActivationInfo);
-	if (!bIsServer) 
+	
+	
+
+
+}
+
+void UAuraProjectileSpell::SpawnProjectile()
+{
+	bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	if (!bIsServer)
 	{
 		return;
 	}
@@ -20,30 +28,28 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 
 
-	if (CombatInterface) 
+	if (CombatInterface)
 	{
-		 const FVector SpawnLocation = CombatInterface->GetCombatSocketLocation();
-		 FTransform SpawnTransform;
-		 SpawnTransform.SetLocation(SpawnLocation);
-		 //TODO: Set rotation
+		const FVector SpawnLocation = CombatInterface->GetCombatSocketLocation();
+		FTransform SpawnTransform;
+		SpawnTransform.SetLocation(SpawnLocation);
+		//TODO: Set rotation
 
 
-		 AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
-																	 ProjectileClass,
-																	 SpawnTransform,
-																	 GetOwningActorFromActorInfo(),
-																	 Cast<APawn>(GetOwningActorFromActorInfo()),
-																	 ESpawnActorCollisionHandlingMethod::AlwaysSpawn
-																 );
+		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+			ProjectileClass,
+			SpawnTransform,
+			GetOwningActorFromActorInfo(),
+			Cast<APawn>(GetOwningActorFromActorInfo()),
+			ESpawnActorCollisionHandlingMethod::AlwaysSpawn
+		);
 
-		 //TODO: Give the projectile a gameplay effect spec for causing damage
+		//TODO: Give the projectile a gameplay effect spec for causing damage
 
 
-		 Projectile->FinishSpawning(SpawnTransform);
+
+		Projectile->FinishSpawning(SpawnTransform);
 
 	}
-
-	
-
 
 }

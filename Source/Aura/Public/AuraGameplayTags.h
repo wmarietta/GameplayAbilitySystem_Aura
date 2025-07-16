@@ -58,6 +58,10 @@ public:
 	FGameplayTag Input_2;
 	FGameplayTag Input_3;
 	FGameplayTag Input_4;
+
+
+	/** Event Tags */
+	FGameplayTag Event_Montage_Firebolt;
 	
 
 
