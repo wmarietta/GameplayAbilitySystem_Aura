@@ -4,12 +4,18 @@
 #include "AbilitySystem/Abilities/AuraProjectileSpell.h"
 #include "Interaction/CombatInterface.h"
 #include "Actor/AuraProjectile.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+
+
+
+
 
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, 
 	const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-	UE_LOG(LogTemp, Warning, TEXT("UAuraProjectileSpell::ActivateAbility called."));
+	
 
 	
 	
@@ -17,7 +23,7 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 }
 
-void UAuraProjectileSpell::SpawnProjectile()
+void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 {
 	bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer)
@@ -33,7 +39,10 @@ void UAuraProjectileSpell::SpawnProjectile()
 		const FVector SpawnLocation = CombatInterface->GetCombatSocketLocation();
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SpawnLocation);
-		//TODO: Set rotation
+
+		FRotator SpawnRotation = (TargetLocation - SpawnLocation).Rotation();
+		SpawnRotation.Pitch = 0.0f; // Ensure the projectile is level
+		SpawnTransform.SetRotation(SpawnRotation.Quaternion());
 
 
 		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
@@ -44,8 +53,10 @@ void UAuraProjectileSpell::SpawnProjectile()
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn
 		);
 
-		//TODO: Give the projectile a gameplay effect spec for causing damage
 
+		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwningActorFromActorInfo());
+		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+		Projectile->DamageEffectSpecHandle = SpecHandle;
 
 
 		Projectile->FinishSpawning(SpawnTransform);

@@ -40,6 +40,8 @@ void AAuraEnemy::InitAbilityActorInfo()
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent())->RegisterToAbilitySystemDelegates();
+
+	InitializeDefaultAttributes();
 }
 
 int32 AAuraEnemy::GetCombatLevel()

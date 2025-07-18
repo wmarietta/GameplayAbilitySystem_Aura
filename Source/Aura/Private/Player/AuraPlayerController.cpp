@@ -94,8 +94,21 @@ void AAuraPlayerController::SetupInputComponent()
 	UAuraInputComponent* AuraInputComponent = Cast<UAuraInputComponent>(InputComponent);
 
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
+
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 
+}
+
+void AAuraPlayerController::ShiftPressed()
+{
+	bIsShiftPressed = true;
+}
+
+void AAuraPlayerController::ShiftReleased()
+{
+	bIsShiftPressed = false;
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
@@ -170,7 +183,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	}
 
 	// navigation path following
-	if(InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB) && !bIsTargeting)
+	if(InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB) && !bIsTargeting && !bIsShiftPressed)
 	{
 		
 		APawn* ControlledPawn = GetPawn<APawn>();
@@ -222,7 +235,8 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if(InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB) && !bIsTargeting)
+	//should the character move towards the cursor location
+	if(InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB) && !bIsTargeting && !bIsShiftPressed)
 	{
 		
 		FollowTime += GetWorld()->GetDeltaSeconds();
