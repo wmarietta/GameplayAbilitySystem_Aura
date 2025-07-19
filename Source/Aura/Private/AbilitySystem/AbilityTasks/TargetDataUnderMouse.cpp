@@ -79,7 +79,7 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 
 	if (ShouldBroadcastAbilityTaskDelegates()) 
 	{
-		OnValidData.Broadcast(TargetData);
+		OnValidData.Broadcast(TargetDataHandle);
 	}
 
 }

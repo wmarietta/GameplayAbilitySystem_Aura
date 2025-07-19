@@ -89,10 +89,19 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 
 
 		Destroy();
+		//DisableProjectile();
 	}
 	else 
 	{
 		bHasHit = true;
 	}
+}
+
+void AAuraProjectile::DisableProjectile()
+{
+	this->SetActorHiddenInGame(true);
+	this->SetActorEnableCollision(false);
+	this->SetActorTickEnabled(false);
+	ProjectileMovement->StopMovementImmediately();
 }
 

@@ -77,4 +77,7 @@ private:
 	TObjectPtr<UAudioComponent> FlightAudioComponent;
 
 
+	void DisableProjectile();
+
+
 };
