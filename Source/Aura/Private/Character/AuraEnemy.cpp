@@ -9,6 +9,7 @@
 #include "Components/WidgetComponent.h"
 #include "AbilitySystemComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
 
 AAuraEnemy::AAuraEnemy()
@@ -86,13 +87,18 @@ void AAuraEnemy::BeginPlay()
 
 void AAuraEnemy::InitAbilityActorInfo()
 {
-	Super::InitAbilityActorInfo();
-
+	
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent())->RegisterToAbilitySystemDelegates();
 
 	InitializeDefaultAttributes();
 }
+
+void AAuraEnemy::InitializeDefaultAttributes()
+{
+	UAuraAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
+}
+
 
 int32 AAuraEnemy::GetCombatLevel()
 {

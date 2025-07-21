@@ -59,7 +59,7 @@ FVector AAuraCharacterBase::GetCombatSocketLocation() const
 
 
 
-void AAuraCharacterBase::InitializeDefaultAttributes() const
+void AAuraCharacterBase::InitializeDefaultAttributes()
 {
 	ApplyEffectToSelf(DefaultPrimaryAttributeEffectClass, 1.0f);
 	ApplyEffectToSelf(DefaultSecondaryAttributeEffectClass, 1.0f);
