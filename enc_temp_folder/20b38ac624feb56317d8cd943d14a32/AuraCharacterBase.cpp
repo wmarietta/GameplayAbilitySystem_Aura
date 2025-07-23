@@ -12,7 +12,7 @@ AAuraCharacterBase::AAuraCharacterBase()
 {
 
 	PrimaryActorTick.bCanEverTick = false;
-	
+
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECollisionResponse::ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
@@ -107,7 +107,6 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-	
 
 
 	GetMesh()->SetSimulatePhysics(true);

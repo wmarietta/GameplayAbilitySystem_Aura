@@ -10,6 +10,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/Pawn.h"
 #include "AuraGameplayTags.h"
+#include <Interaction/CombatInterface.h>
 
 
 
@@ -181,14 +182,23 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 			const bool bIsFatal = NewHealth <= 0.f;
 
-			if (!bIsFatal) 
+			if (bIsFatal) 
+			{
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetAvatarActor);
+				if (CombatInterface) 
+				{
+					CombatInterface->Die();
+				}
+			}
+
+			else 
 			{
 				FGameplayTagContainer TagsToActivate;
 				TagsToActivate.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 
 				Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagsToActivate);
 			}
-
+			
 		}
 
 
