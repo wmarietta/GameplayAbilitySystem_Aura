@@ -128,4 +128,19 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Event tag for the Firebolt montage."));
 
 
+
+
+	/** Other Tags */
+	GameplayTags.Damage = TagsManager.AddNativeGameplayTag(
+		FName("Damage"),
+		FString("Generic damage tag."));
+
+
+
+	/** Effect Tags */
+	GameplayTags.Effects_HitReact = TagsManager.AddNativeGameplayTag(
+		FName("Effects.HitReact"),
+		FString("Tag for hit reaction effects."));
+
+
 }

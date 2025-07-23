@@ -49,6 +49,8 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() override;
+
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
@@ -60,6 +62,14 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bIsHitReacting = false;
+
+
+	
+
+
 
 private:
 

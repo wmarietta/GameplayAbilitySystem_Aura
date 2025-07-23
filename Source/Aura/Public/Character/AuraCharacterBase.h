@@ -30,6 +30,8 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const;
 
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+
 
 protected:
 
@@ -80,11 +82,16 @@ protected:
 
 	void AddCharacterAbilities();
 
+	
+
 
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartingAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 	
 
 };

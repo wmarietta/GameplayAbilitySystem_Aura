@@ -62,8 +62,14 @@ public:
 
 	/** Event Tags */
 	FGameplayTag Event_Montage_Firebolt;
-	
 
+
+	/** Other Tags */
+	FGameplayTag Damage;
+
+
+	/** Effect Tags */
+	FGameplayTag Effects_HitReact;
 
 
 

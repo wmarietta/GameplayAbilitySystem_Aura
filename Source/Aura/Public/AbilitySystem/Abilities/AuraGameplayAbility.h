@@ -20,5 +20,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	FGameplayTag StartupInputTag;
+
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Properties")
+	FScalableFloat AbilityStrength;
+
 	
 };

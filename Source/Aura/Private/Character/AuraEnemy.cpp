@@ -10,6 +10,7 @@
 #include "AbilitySystemComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "AuraGameplayTags.h"
 
 
 AAuraEnemy::AAuraEnemy()
@@ -51,7 +52,6 @@ void AAuraEnemy::BeginPlay()
 	}
 
 
-
 	UAuraAttributeSet* AuraAttributeSet = Cast<UAuraAttributeSet>(GetAttributeSet());
 	if (AuraAttributeSet)
 	{
@@ -71,17 +71,36 @@ void AAuraEnemy::BeginPlay()
 
 		);
 
+
+		
+
+		AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(this ,&AAuraEnemy::HitReactTagChanged);
+
+
+
+
 		OnHealthChangedDelegate.Broadcast(AuraAttributeSet->GetHealth());
 		OnMaxHealthChangedDelegate.Broadcast(AuraAttributeSet->GetMaxHealth());
 
 	}
 
+}
 
-
-	
-		
-
-
+void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bIsHitReacting = NewCount > 0;
+	if (bIsHitReacting)
+	{
+		// Do something when hit react is active, like playing a hit reaction animation
+		// For now, we will just log it
+		UE_LOG(LogTemp, Warning, TEXT("Hit React Activated!"));
+	}
+	else
+	{
+		// Do something when hit react is no longer active
+		// For now, we will just log it
+		UE_LOG(LogTemp, Warning, TEXT("Hit React Deactivated!"));
+	}
 }
 
 
@@ -98,6 +117,8 @@ void AAuraEnemy::InitializeDefaultAttributes()
 {
 	UAuraAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
+
+
 
 
 int32 AAuraEnemy::GetCombatLevel()
