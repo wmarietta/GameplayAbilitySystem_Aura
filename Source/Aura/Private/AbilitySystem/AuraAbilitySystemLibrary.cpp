@@ -43,7 +43,24 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 	return nullptr;
 }
 
-void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(UObject* WorldContextObject, ECharacterClass Class, float Level, UAbilitySystemComponent* ASC)
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameMode == nullptr)
+	{
+		return;
+	}
+
+	UCharacterClassInfo* ClassInfo = AuraGameMode->CharacterClassInfo;
+	for (auto AbilityClass : ClassInfo->CommonAbilities) 
+	{
+		FGameplayAbilitySpec AbilitySpec(AbilityClass, 1);
+		ASC->GiveAbility(AbilitySpec);
+	}
+
+}
+
+void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass Class, float Level, UAbilitySystemComponent* ASC)
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (AuraGameMode == nullptr) 

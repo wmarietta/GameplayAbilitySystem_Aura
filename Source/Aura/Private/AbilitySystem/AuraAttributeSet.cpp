@@ -12,6 +12,7 @@
 #include "AuraGameplayTags.h"
 
 
+
 UAuraAttributeSet::UAuraAttributeSet()
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
@@ -179,6 +180,15 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			SetHealth(FMath::Clamp(NewHealth, 0, GetMaxHealth()));
 
 			const bool bIsFatal = NewHealth <= 0.f;
+
+			if (!bIsFatal) 
+			{
+				FGameplayTagContainer TagsToActivate;
+				TagsToActivate.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+
+				Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagsToActivate);
+			}
+
 		}
 
 
