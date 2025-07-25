@@ -91,6 +91,25 @@ void AAuraCharacterBase::AddCharacterAbilities()
 
 }
 
+void AAuraCharacterBase::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance)) 
+	{
+		// Set the dissolve material on the mesh
+		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMaterial);
+		StartDissolveTimeline(DynamicMaterial);
+	}
+
+	if(IsValid(WeaponDissolveMaterialInstance)) 
+	{
+		// Set the dissolve material on the weapon
+		UMaterialInstanceDynamic* DynamicWeaponMaterial = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		Weapon->SetMaterial(0, DynamicWeaponMaterial);
+		StartWeaponDissolveTimeline(DynamicWeaponMaterial);
+	}
+}
+
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 {
 	return HitReactMontage;
@@ -116,6 +135,9 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECollisionResponse::ECR_Block);
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+
+	Dissolve();
 	
 }
 

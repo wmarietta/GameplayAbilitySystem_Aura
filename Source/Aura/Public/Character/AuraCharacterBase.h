@@ -16,6 +16,8 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
 class UGameplayAbility;
+class UMaterialInstance;
+class UMaterialInstanceDynamic;
 
 
 UCLASS(Abstract)
@@ -91,6 +93,23 @@ protected:
 	void AddCharacterAbilities();
 
 	
+	/** Dissolve Efects */
+
+	void Dissolve();
+
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Dissolve")
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Dissolve")
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
 
 private:

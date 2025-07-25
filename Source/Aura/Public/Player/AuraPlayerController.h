@@ -14,6 +14,8 @@ class IEnemyInterface;
 class UAuraInputConfig;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
+class UDamageTextComponent;
+class ACharacter;
 
 struct FInputActionValue;
 
@@ -34,6 +36,10 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+
+	
 
 protected:
 
@@ -99,8 +105,8 @@ private:
 
 	void AutoRun();
 
-
-	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextClass;
 
 
 

@@ -11,6 +11,8 @@
 #include "GameFramework/Pawn.h"
 #include "AuraGameplayTags.h"
 #include <Interaction/CombatInterface.h>
+#include <Kismet/GameplayStatics.h>
+#include <Player/AuraPlayerController.h>
 
 
 
@@ -198,6 +200,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 				Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagsToActivate);
 			}
+
+			ShowFloatingText(Properties, LocalIncomingDamage);
 			
 		}
 
@@ -205,6 +209,26 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	}
 
 
+}
+
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Properties, float Damage) const
+{
+	
+	if (Properties.SourceCharacter != Properties.TargetCharacter)
+	{
+		for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+		{
+			if (auto AuraPC = Cast<AAuraPlayerController>(It->Get()))
+			{
+				AuraPC->ShowDamageNumber(Damage, Properties.TargetCharacter);
+			}
+		}
+		/*if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Properties.SourceCharacter, 0)))
+		{
+			
+			PC->ShowDamageNumber(Damage, Properties.TargetCharacter);
+		}*/
+	}
 }
 
 
@@ -266,6 +290,8 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	Properties.TargetCharacter = TargetCharacter;
 
 }
+
+
 
 void UAuraAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
 {

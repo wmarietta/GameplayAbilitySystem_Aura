@@ -312,5 +312,5 @@ public:
 private:
 
 	void SetEffectProperties(const FGameplayEffectModCallbackData &Data, FEffectProperties& Properties );
-	
+	void ShowFloatingText(const FEffectProperties& Properties, float Damage) const;
 };
