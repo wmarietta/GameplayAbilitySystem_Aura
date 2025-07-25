@@ -51,7 +51,11 @@ void AAuraProjectile::Destroyed()
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation());
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		FlightAudioComponent->Stop();
+		if(FlightAudioComponent)
+		{
+			FlightAudioComponent->Stop();
+		}
+		
 	}
 	
 	Super::Destroyed();
@@ -89,7 +93,6 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 
 
 		Destroy();
-		//DisableProjectile();
 	}
 	else 
 	{
