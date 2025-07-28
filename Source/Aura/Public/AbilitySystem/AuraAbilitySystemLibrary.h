@@ -33,5 +33,9 @@ public:
 
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
 
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassInfo")
+	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
+
 	
 };
