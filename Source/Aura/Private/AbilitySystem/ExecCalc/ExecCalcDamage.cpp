@@ -7,6 +7,7 @@
 #include <AbilitySystem/Data/CharacterClassInfo.h>
 #include <AbilitySystem/AuraAbilitySystemLibrary.h>
 #include <Interaction/CombatInterface.h>
+#include <AuraAbilityTypes.h>
 
 
 struct AuraDamageStatics
@@ -80,10 +81,10 @@ void UExecCalcDamage::Execute_Implementation(const FGameplayEffectCustomExecutio
 
 	UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 	FRealCurve* ArmorPenetrationCurve = CharacterClassInfo->DamageCalculationCoefficientsCurveTable->FindCurve(FName("ArmorPenetration"), FString());
-	const float ArmorPenetrationCoeffcient = ArmorPenetrationCurve->Eval(SourceCombatInterface->GetCombatLevel());
+	const float ArmorPenetrationCoefficient = ArmorPenetrationCurve->Eval(SourceCombatInterface->GetCombatLevel());
 
 	FRealCurve* EffectiveArmorCurve = CharacterClassInfo->DamageCalculationCoefficientsCurveTable->FindCurve(FName("EffectiveArmor"), FString());
-	const float EffectiveArmorCoeffcient = EffectiveArmorCurve->Eval(TargetCombatInterface->GetCombatLevel());
+	const float EffectiveArmorCoefficient = EffectiveArmorCurve->Eval(TargetCombatInterface->GetCombatLevel());
 
 
 	float TargetBlockChance = 0.f;
@@ -99,26 +100,29 @@ void UExecCalcDamage::Execute_Implementation(const FGameplayEffectCustomExecutio
 	SourceArmorPenetration = FMath::Max(0, SourceArmorPenetration);
 
 
-	float SourceCriticalhitChance = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageStatics().CriticalHitChanceDef, EvaluationParams, SourceCriticalhitChance);
-	SourceCriticalhitChance = FMath::Max(0, SourceCriticalhitChance);
+	float SourceCriticalHitChance = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageStatics().CriticalHitChanceDef, EvaluationParams, SourceCriticalHitChance);
+	SourceCriticalHitChance = FMath::Max(0, SourceCriticalHitChance);
 
-	const bool bDidCrit = FMath::FRandRange(1.f, 100.f) <= SourceCriticalhitChance;
-	if (bDidCrit)
+	const bool bIsCriticalHit = FMath::FRandRange(1.f, 100.f) <= SourceCriticalHitChance;
+	if (bIsCriticalHit)
 	{
 		Damage *= 2.f;
 	}
 
 
-	const bool bDidBlock = FMath::FRandRange(1.f, 100.f) <= TargetBlockChance;
-	if (bDidBlock && !bDidCrit)
+	const bool bIsBlocked = FMath::FRandRange(1.f, 100.f) <= TargetBlockChance;
+	if (bIsBlocked && !bIsCriticalHit)
 	{
 		Damage /= 2.f;
 	}
 
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bIsBlocked);
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bIsCriticalHit);
 
-	const float TargetEffectiveArmor = TargetArmor * ((100.f - SourceArmorPenetration * ArmorPenetrationCoeffcient) / 100.f);
-	Damage *= (100.f - TargetEffectiveArmor * EffectiveArmorCoeffcient) / 100.f;
+	const float TargetEffectiveArmor = TargetArmor * ((100.f - SourceArmorPenetration * ArmorPenetrationCoefficient) / 100.f);
+	Damage *= (100.f - TargetEffectiveArmor * EffectiveArmorCoefficient) / 100.f;
 
 
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
