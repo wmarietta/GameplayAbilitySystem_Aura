@@ -100,6 +100,23 @@ UAuraAttributeSet::UAuraAttributeSet()
 	ManaRegenerationDelegate.BindStatic(UAuraAttributeSet::GetManaRegenerationAttribute);
 	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Secondary_ManaRegeneration, ManaRegenerationDelegate);
 
+	FAttributeSignature FireResistanceDelegate;
+	FireResistanceDelegate.BindStatic(UAuraAttributeSet::GetFireResistanceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Resistance_Fire, FireResistanceDelegate);
+
+	FAttributeSignature LightningResistanceDelegate;
+	LightningResistanceDelegate.BindStatic(UAuraAttributeSet::GetLightningResistanceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Resistance_Lightning, LightningResistanceDelegate);
+
+	FAttributeSignature ArcaneResistanceDelegate;
+	ArcaneResistanceDelegate.BindStatic(UAuraAttributeSet::GetArcaneResistanceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Resistance_Arcane, ArcaneResistanceDelegate);
+
+	FAttributeSignature PhysicalResistanceDelegate;
+	PhysicalResistanceDelegate.BindStatic(UAuraAttributeSet::GetPhysicalResistanceAttribute);
+	TagToAttributeDelegateMap.Add(GameplayTags.Attributes_Resistance_Physical, PhysicalResistanceDelegate);
+
+
 	/** End Secondary Attributes*/
 
 }
@@ -135,6 +152,10 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, FireResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, LightningResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArcaneResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
 	//~ End Replication of Secondary Attributes
 }
 
@@ -386,6 +407,28 @@ void UAuraAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& Old
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ManaRegeneration, OldManaRegeneration);
 }
+
+void UAuraAttributeSet::OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, FireResistance, OldFireResistance);
+}
+
+void UAuraAttributeSet::OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, LightningResistance, OldLightningResistance);
+}
+
+void UAuraAttributeSet::OnRep_ArcaneResistance(const FGameplayAttributeData& OldArcaneResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ArcaneResistance, OldArcaneResistance);
+}
+
+void UAuraAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, PhysicalResistance, OldPhysicalResistance);
+}
+
+
 
 
 

@@ -50,6 +50,13 @@ public:
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
 
+	/** Resistance Tags */
+	FGameplayTag Attributes_Resistance_Fire;
+	FGameplayTag Attributes_Resistance_Lightning;
+	FGameplayTag Attributes_Resistance_Arcane;
+	FGameplayTag Attributes_Resistance_Physical;
+
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistancesMap;
 
 	/** Input Tags */
 	FGameplayTag Input_LMB;
@@ -64,8 +71,12 @@ public:
 	FGameplayTag Event_Montage_Firebolt;
 
 
-	/** Other Tags */
+	/** Damage Tags */
 	FGameplayTag Damage;
+	FGameplayTag Damage_Fire;
+	FGameplayTag Damage_Lightning;
+	FGameplayTag Damage_Arcane;
+	FGameplayTag Damage_Physical;
 
 
 	/** Effect Tags */

@@ -22,8 +22,7 @@ public:
 	FGameplayTag StartupInputTag;
 
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Properties")
-	FScalableFloat AbilityStrength;
+
 
 	
 };
