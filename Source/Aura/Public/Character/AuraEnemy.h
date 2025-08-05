@@ -12,6 +12,8 @@
 
 
 class UWidgetComponent;
+class UBehaviorTree;
+class AAuraAIController;
 
 /**
  * 
@@ -25,6 +27,8 @@ public:
 
 	/** Default Constructor for AuraEnemy */
 	AAuraEnemy();
+
+	virtual void PossessedBy(AController* NewController) override;
 
 
 	//~ Enemy Interface
@@ -69,6 +73,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bIsHitReacting = false;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
+	TObjectPtr<AAuraAIController> AuraAIController;
 
 
 	

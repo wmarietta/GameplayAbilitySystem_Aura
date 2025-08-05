@@ -11,6 +11,9 @@
 #include "UI/Widget/AuraUserWidget.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AuraGameplayTags.h"
+#include "AI/AuraAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 
 AAuraEnemy::AAuraEnemy()
@@ -35,6 +38,25 @@ AAuraEnemy::AAuraEnemy()
 
 
 
+
+}
+
+void AAuraEnemy::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	
+
+
+	AuraAIController = Cast<AAuraAIController>(NewController);
+
+	if (!HasAuthority())
+	{
+		return;
+	}
+
+	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	AuraAIController->RunBehaviorTree(BehaviorTree);
 
 }
 
